@@ -1,0 +1,31 @@
+io.on("connection",  (socket) => {
+  console.log(`Connection From ${socket.handshake.headers.referer}`);
+  socket.join("chatRoom1");
+  db.query("SELECT * FROM chatted;", (err, pastChatData) => {
+    socket.broadcast.emit("pastChatData", pastChatData);
+  });
+  socket.on("chat", async (chat) => {
+    console.log(`${chat.message} from User : ${chat.userName}`);
+    socket.broadcast.emit("chat", {
+      id: chat.id,
+      userName: chat.userName,
+      message: chat.message,
+      created: chat.created,
+    });
+    db.query(
+      "INSERT INTO chatted (userName,message,created,chatId) VALUES (?,?,?,?);",
+      [
+        chat.userName,
+        chat.message,
+        chat.created,
+        new Date().getTime() % 100000000,
+      ]
+    );
+  });
+  socket.on("removeChatData", async (chatId) => {
+    console.log(chatId);
+    db.query("DELETE FROM chatted WHERE chatId=?", [chatId], (err, res) => {
+      console.log(`${chatId} was deleted`);
+    });
+  });
+});

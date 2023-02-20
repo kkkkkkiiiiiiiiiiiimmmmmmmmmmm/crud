@@ -1,0 +1,31 @@
+extends ./layouts/nav.pug
+
+block content 
+    main 
+        header
+            h1 #{postTitle}
+        main 
+            label #{author}
+            span #{postCreatedAt}
+            hr
+            p #{postContent}
+            hr
+            if isCommentExist
+                each comment in commentList
+                    ul 
+                        li
+                            label=`${comment.author}`
+                            span=`${comment.createdAt.toString().substring(0,24)}`
+                            p=`${comment.content}`
+                            a(href=`/delete-comment-process/postId=${postId}&commentId=${comment.id}`) delete
+            else
+                h1 Write Any Comment!
+            form(action=`/comment-process/postId=${postId}`, method="post") 
+                input(class="commentContent" type="text" name="comment")
+                button(class="commentButton" type="submit" ) Comment 
+        footer
+            a(href=`/write-post/postId=${postId}`) 
+                input(type="submit" value="Update") 
+            a(class="deleteButton" href=`/delete-post-process/postId=${postId}`) 
+                input(type="submit" value="Delete")
+        script(src="/post.js") 

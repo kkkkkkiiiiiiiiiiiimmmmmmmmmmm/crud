@@ -1,0 +1,10 @@
+extends ./layouts/nav.pug
+
+block content
+    main 
+        h1
+            #{errorMessage}
+        h1 Go Our Homepage
+            form(action="/" method="GET")
+                button(type="submit") Home
+        

@@ -1,0 +1,18 @@
+extends ./layouts/nav.pug
+
+block content 
+    main 
+        h1 Write Your Posts
+        form(class="postForm" action="/post-process" method="POST")
+            div
+                label Name
+                input(class="postUserName" type="name" name="authorName") 
+            div
+                label Title
+                input(class="postTitle" type="title" name="postTitle") 
+            div
+                label Content
+                input(class="postContent" type="text" name="postContent") 
+            button(type="submit") Post
+
+    script(src="/post.js") 

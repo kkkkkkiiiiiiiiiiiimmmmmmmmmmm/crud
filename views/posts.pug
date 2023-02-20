@@ -1,0 +1,19 @@
+extends ./layouts/nav.pug
+
+block content 
+    main 
+        h1 Meet The Posts
+        hr
+        if isPostExisted
+            h3
+                a(href="/write-post") Go Write!
+            each post in postList 
+                div
+                    article
+                        a(href=`/post/postId=${post.id}` style="color:black;")=`${post.title} by ${post.author}` 
+        else 
+            h1 No Post Here...
+            main 
+                strong
+                    a(href="/write-post") Go Write!
+    script(src="/post.js") 

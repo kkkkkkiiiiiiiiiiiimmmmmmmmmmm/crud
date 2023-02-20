@@ -1,0 +1,16 @@
+extends ./layouts/nav.pug
+
+block content
+    body 
+        main      
+            h1 Welcome! Sign Up with Chatter!
+            form(action="/post-sign-up" method="POST")
+                h3 Name 
+                input(type="name" name="userName") 
+                h3 Email 
+                input(type="email" name="userEmail")
+                h3 ID 
+                input(type="ID" name="id") 
+                h3 Password 
+                input(type="password" name="password")
+                input(type="submit" value="Go")

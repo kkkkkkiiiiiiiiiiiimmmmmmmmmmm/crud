@@ -1,0 +1,15 @@
+extends ./layouts/nav.pug
+
+block content
+    body      
+    main
+        if isLoginFailed
+            h1 Put Your Infos Again 
+        else 
+            h1 Welcome To Chatter!
+        form(action="/post-login" method="POST")
+            h3 ID 
+            input(type="ID" name="id") 
+            h3 Password 
+            input(type="password" name="password")
+            input(type="submit" value="Go")
