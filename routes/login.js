@@ -6,6 +6,8 @@ const loginController = require("../controllers/login");
 
 router.get("/login", loginController.loginPage);
 
+router.get("/logout", loginController.logoutProcess);
+
 router.get("/sign-up", loginController.signUpPage);
 
 router.post("/post-login", loginController.loginProcess);

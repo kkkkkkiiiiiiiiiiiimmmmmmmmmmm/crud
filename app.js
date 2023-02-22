@@ -1,8 +1,8 @@
-const serverPkg = require("./util/ioSocket");
 const express = require("express");
-const httpServer = serverPkg.httpServer;
-const app = serverPkg.app;
-const io = serverPkg.io;
+const app = express();
+const session = require("express-session");
+const csrf = require("csurf");
+const flash = require("connect-flash");
 
 const bodyParser = require("body-parser");
 const sequelize = require("./util/database");
@@ -10,11 +10,28 @@ const path = require("path");
 
 const port = 3000;
 
+const csrfProtection = csrf();
+
 app.set("view engine", "pug");
 app.set("views", "views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "my secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(csrfProtection);
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header(
@@ -62,4 +79,4 @@ sequelize
   .then((result) => {})
   .catch();
 
-httpServer.listen(port);
+app.listen(port);

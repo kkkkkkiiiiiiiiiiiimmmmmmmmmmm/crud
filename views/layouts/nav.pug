@@ -3,9 +3,11 @@ extends header.pug
 block navigate
     header 
         nav    
-            a(href="http://localhost:3000/" style="color:black;") Home
-            a(href="http://localhost:3000/posts" style="color:black;") Post
-            a(href="http://localhost:3000/login" style="color:black;") Login  
-            a(href="http://localhost:3000/sign-up" style="color:black;") Sign Up
-            
+            a(href="/" style="color:black;") Home
+            a(href="/posts" style="color:black;") Post
+            if isAuthenticated
+                a(href="/logout" style="color:black;") Logout  
+            else
+                a(href="/login" style="color:black;") Login  
+                a(href="/sign-up" style="color:black;") Sign Up
     block content

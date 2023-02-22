@@ -6,7 +6,8 @@ block content
         hr
         if isPostExisted
             h3
-                a(href="/write-post") Go Write!
+                if isAuthenticated
+                    a(href="/write-post") Go Write!
             each post in postList 
                 div
                     article
@@ -16,4 +17,3 @@ block content
             main 
                 strong
                     a(href="/write-post") Go Write!
-    script(src="/post.js") 

@@ -1,3 +1,4 @@
 exports.homePage = (req, res, next) => {
-  res.render("home", { pageTitle: "CRUD" });
+  const session = req.session.isLoggedIn;
+  res.render("home", { pageTitle: "CRUD", isAuthenticated: session });
 };

@@ -2,10 +2,12 @@ extends ./layouts/nav.pug
 
 block content 
     main
-        h1 Welcome To Chatter!
-        form(action="/login" method="GET")
-            button(type="submit") Login
-        form(action="/sign-up" method="GET")
-            button(type="submit") Sign Up
-        form(action="/posts" method="GET")
-            button(type="submit") Go Posts!
+        h1 Welcome To CRUD!
+        if !isAuthenticated
+            form(action="/login" method="GET")
+                button(type="submit") Login
+            form(action="/sign-up" method="GET")
+                button(type="submit") Sign Up
+        else
+            form(action="/posts" method="GET")
+                button(type="submit") Go Posts!

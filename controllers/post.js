@@ -24,12 +24,15 @@ exports.getPost = async (req, res, next) => {
       postData = res.dataValues;
     });
     const getComments = await Comment.findAll({ where: { postId: postId } });
-    const commentList = await getComments.map((comment) => {
+    let commentList = await getComments.map((comment) => {
       return comment.dataValues;
     });
-
+    commentList.forEach((comment) => {
+      if (comment.userId === req.session.userId) {
+        comment.isUserComment = true;
+      } else comment.isUserComment = false;
+    });
     let isCommentExist = commentList.length == 0 ? false : true;
-
     const date = postData.createdAt.toString().substring(0, 24);
 
     res.render("post", {
@@ -53,7 +56,6 @@ exports.getPost = async (req, res, next) => {
 exports.writePost = (req, res, next) => {
   res.render("writePost", { pageTitle: "Write Post" });
 };
-
 exports.updatePost = async (req, res, next) => {
   const postId = req.params.postId;
   let postData;
@@ -98,6 +100,7 @@ exports.updatePostProcess = async (req, res, next) => {
 };
 exports.deletePostProcess = async (req, res, next) => {
   const deletedPostId = req.params.postId;
+
   Post.destroy({
     where: { id: deletedPostId },
   });

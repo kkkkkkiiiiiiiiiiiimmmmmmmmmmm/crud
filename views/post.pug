@@ -17,15 +17,16 @@ block content
                             label=`${comment.author}`
                             span=`${comment.createdAt.toString().substring(0,24)}`
                             p=`${comment.content}`
-                            a(href=`/delete-comment-process/postId=${postId}&commentId=${comment.id}`) delete
+                            if comment.isUserComment
+                                a(href=`/delete-comment-process/postId=${postId}&commentId=${comment.id}`) delete
             else
                 h1 Write Any Comment!
             form(action=`/comment-process/postId=${postId}`, method="post") 
                 input(class="commentContent" type="text" name="comment")
                 button(class="commentButton" type="submit" ) Comment 
         footer
-            a(href=`/write-post/postId=${postId}`) 
-                input(type="submit" value="Update") 
-            a(class="deleteButton" href=`/delete-post-process/postId=${postId}`) 
-                input(type="submit" value="Delete")
+            if isAuthenticated
+                a(href=`/write-post/postId=${postId}`) Update
+                br
+                a(class="deleteButton" href=`/delete-post-process/postId=${postId}`) Delete
         script(src="/post.js") 
